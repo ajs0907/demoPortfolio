@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hunger Management AI | Aidan J. Sheehan</title>
+    <meta name="description"
+        content="AI simulation engine using OpenAI's LLM to model geopolitical resource crises and management solutions.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/bg-system.css">
+</head>
+
+<body class="antialiased">
+    <canvas id="starfield"></canvas>
+    <div class="bg-grid"></div>
+    <div class="geo-lines" id="geo-lines"></div>
+    <div class="orbit-ring orbit-ring-1"></div>
+    <div class="orbit-ring orbit-ring-2"></div>
+    <div class="orbit-ring orbit-ring-3"></div>
+
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-difference">
+        <a href="../index.html" class="font-extrabold tracking-tighter text-xl">SHEEHAN <span
+                class="text-blue-500">/</span> 26</a>
+        <a href="../index.html#projects"
+            class="text-[9px] font-bold uppercase tracking-[0.5em] opacity-40 hover:opacity-100 transition-opacity">←
+            Back to Artifacts</a>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 pt-32 pb-24">
+        <div class="fade-in">
+            <span class="text-blue-500 text-[10px] font-bold tracking-[0.6em] uppercase mb-4 block">03 / Software</span>
+            <h1 class="text-4xl md:text-7xl font-extrabold tracking-tighter mb-6">Hunger <br><span
+                    class="opacity-40 italic">Management AI</span></h1>
+            <div class="h-1 w-20 bg-blue-500 mb-12"></div>
+        </div>
+
+        <div class="fade-in" style="animation-delay: 0.2s; opacity: 0;">
+            <div class="aspect-video rounded overflow-hidden mb-16 bg-[#111]">
+                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1400"
+                    alt="Hunger Management AI" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20 fade-in" style="animation-delay: 0.3s; opacity: 0;">
+            <div class="glass p-6">
+                <span class="text-blue-500 text-[9px] font-bold tracking-[0.4em] uppercase block mb-2">Duration</span>
+                <p class="text-lg font-semibold">4 Weeks</p>
+            </div>
+            <div class="glass p-6">
+                <span class="text-blue-500 text-[9px] font-bold tracking-[0.4em] uppercase block mb-2">Primary
+                    Stack</span>
+                <p class="text-lg font-semibold">Python + OpenAI</p>
+            </div>
+            <div class="glass p-6">
+                <span class="text-blue-500 text-[9px] font-bold tracking-[0.4em] uppercase block mb-2">Category</span>
+                <p class="text-lg font-semibold">AI Simulation</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-16 mb-20 fade-in" style="animation-delay: 0.4s; opacity: 0;">
+            <div class="md:col-span-3">
+                <h2 class="text-2xl font-extrabold tracking-tight mb-6">The Challenge</h2>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6 font-light">
+                    Food insecurity is a complex, multi-variable problem driven by politics, climate, economics, and
+                    logistics. The goal was to build a simulation engine that could model these interacting forces and
+                    generate realistic crisis scenarios — then use AI to propose actionable solutions.
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed font-light">
+                    The key technical challenge was prompt engineering: how do you instruct an LLM to behave as a
+                    geopolitical simulation engine that produces consistent, grounded outputs rather than generic
+                    responses? This required iterative refinement of system prompts and output schemas.
+                </p>
+            </div>
+            <div class="md:col-span-2">
+                <h3 class="text-lg font-extrabold tracking-tight mb-4">Skills Developed</h3>
+                <div class="flex flex-wrap gap-3">
+                    <span
+                        class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Python</span>
+                    <span class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">OpenAI
+                        API</span>
+                    <span class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Prompt
+                        Engineering</span>
+                    <span
+                        class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Simulation
+                        Design</span>
+                    <span class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Data
+                        Modeling</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-20 fade-in" style="animation-delay: 0.5s; opacity: 0;">
+            <h2 class="text-2xl font-extrabold tracking-tight mb-8">Design Process</h2>
+            <div class="border-l border-white/10 ml-4 pl-8 space-y-10">
+                <div class="timeline-item">
+                    <h3 class="text-base font-bold mb-2">Problem Research</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Studied real-world food crisis data,
+                        supply chain disruption patterns, and UN hunger reports. Identified the key variables — crop
+                        yield, trade routes, political stability, climate events — that drive food insecurity.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="text-base font-bold mb-2">Simulation Architecture</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Designed a turn-based simulation engine
+                        in Python where each "turn" represents a time period. The LLM receives the current state,
+                        generates events and consequences, and the engine updates the world model accordingly.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="text-base font-bold mb-2">Prompt Engineering & Iteration</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Spent significant time refining system
+                        prompts to ensure the AI produced structured, realistic scenarios rather than generic text.
+                        Implemented output parsing with JSON schemas to make responses machine-readable.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="text-base font-bold mb-2">Solution Generation</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Built a secondary agent that analyzes
+                        crisis scenarios and proposes intervention strategies. Validated outputs against real-world case
+                        studies to assess feasibility and relevance.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass p-8 md:p-12 mb-20 fade-in" style="animation-delay: 0.6s; opacity: 0;">
+            <h2 class="text-2xl font-extrabold tracking-tight mb-6">What I Learned</h2>
+            <div class="space-y-4">
+                <p class="text-slate-400 text-sm leading-relaxed font-light">
+                    <strong class="text-white font-semibold">LLMs are powerful but need guardrails.</strong> Without
+                    structured output schemas and careful system prompts, the AI would drift into generic advice or
+                    hallucinate scenarios. Learning to constrain creativity without killing it was the core skill here.
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed font-light">
+                    <strong class="text-white font-semibold">Domain expertise matters for AI applications.</strong> The
+                    simulation was only as good as my understanding of the problem domain. Building useful AI tools
+                    requires investing in the subject matter, not just the technology.
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed font-light">
+                    <strong class="text-white font-semibold">Iterative development is essential for AI.</strong> Unlike
+                    traditional software where you can test deterministically, AI outputs vary. This project taught me
+                    to think in terms of evaluation criteria and output quality distributions rather than binary
+                    pass/fail tests.
+                </p>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <a href="../index.html#projects"
+                class="inline-block px-10 py-4 border border-white/10 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300">←
+                Back to All Projects</a>
+        </div>
+    </main>
+    <script src="../js/bg-system.js"></script>
+</body>
+
+</html>
