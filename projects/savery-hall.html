@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savery Hall Digital Twin | Aidan J. Sheehan</title>
+    <meta name="description"
+        content="Deep dive into the parametric reconstruction of UW's Savery Hall using Fusion 360.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/bg-system.css">
+</head>
+
+<body class="antialiased">
+    <canvas id="starfield"></canvas>
+    <div class="bg-grid"></div>
+    <div class="geo-lines" id="geo-lines"></div>
+    <div class="orbit-ring orbit-ring-1"></div>
+    <div class="orbit-ring orbit-ring-2"></div>
+    <div class="orbit-ring orbit-ring-3"></div>
+
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-difference">
+        <a href="../index.html" class="font-extrabold tracking-tighter text-xl">SHEEHAN <span
+                class="text-blue-500">/</span> 26</a>
+        <a href="../index.html#projects"
+            class="text-[9px] font-bold uppercase tracking-[0.5em] opacity-40 hover:opacity-100 transition-opacity">←
+            Back to Artifacts</a>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 pt-32 pb-24">
+        <div class="fade-in">
+            <span class="text-blue-500 text-[10px] font-bold tracking-[0.6em] uppercase mb-4 block">01 /
+                Architecture</span>
+            <h1 class="text-4xl md:text-7xl font-extrabold tracking-tighter mb-6">Savery Hall <br><span
+                    class="opacity-40 italic">Digital Twin</span></h1>
+            <div class="h-1 w-20 bg-blue-500 mb-12"></div>
+        </div>
+
+        <div class="fade-in" style="animation-delay: 0.2s; opacity: 0;">
+            <div class="aspect-video rounded overflow-hidden mb-16 bg-[#111]">
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1400"
+                    alt="Savery Hall CAD Render" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20 fade-in" style="animation-delay: 0.3s; opacity: 0;">
+            <div class="glass p-6">
+                <span class="text-blue-500 text-[9px] font-bold tracking-[0.4em] uppercase block mb-2">Duration</span>
+                <p class="text-lg font-semibold">6 Weeks</p>
+            </div>
+            <div class="glass p-6">
+                <span class="text-blue-500 text-[9px] font-bold tracking-[0.4em] uppercase block mb-2">Primary
+                    Tool</span>
+                <p class="text-lg font-semibold">Fusion 360</p>
+            </div>
+            <div class="glass p-6">
+                <span class="text-blue-500 text-[9px] font-bold tracking-[0.4em] uppercase block mb-2">Category</span>
+                <p class="text-lg font-semibold">Parametric Modeling</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-16 mb-20 fade-in" style="animation-delay: 0.4s; opacity: 0;">
+            <div class="md:col-span-3">
+                <h2 class="text-2xl font-extrabold tracking-tight mb-6">The Challenge</h2>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6 font-light">
+                    Savery Hall is one of the University of Washington's most architecturally distinctive buildings,
+                    with a complex Gothic Revival facade featuring intricate window patterns, ornamental stonework, and
+                    layered depth. The challenge was to create a accurate parametric digital twin that could capture
+                    these details while remaining fully editable.
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed font-light">
+                    Traditional static modeling would have been faster, but the goal was to build something that could
+                    adapt — if a window dimension changed, the entire facade would update. This required a deep
+                    understanding of parametric constraints and relationship-driven design.
+                </p>
+            </div>
+            <div class="md:col-span-2">
+                <h3 class="text-lg font-extrabold tracking-tight mb-4">Skills Developed</h3>
+                <div class="flex flex-wrap gap-3">
+                    <span class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Fusion
+                        360</span>
+                    <span
+                        class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Parametric
+                        Constraints</span>
+                    <span class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Facade
+                        Detailing</span>
+                    <span
+                        class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Measurement
+                        & Survey</span>
+                    <span class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Design
+                        Intent</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-20 fade-in" style="animation-delay: 0.5s; opacity: 0;">
+            <h2 class="text-2xl font-extrabold tracking-tight mb-8">Design Process</h2>
+            <div class="border-l border-white/10 ml-4 pl-8 space-y-10">
+                <div class="timeline-item">
+                    <h3 class="text-base font-bold mb-2">Research & Measurement</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Conducted on-site measurements and
+                        photographic documentation of Savery Hall. Referenced architectural blueprints and historical
+                        records to capture proportions accurately.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="text-base font-bold mb-2">Structural Framework</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Built the foundational structure using
+                        parametric sketches, establishing key reference planes and dimensional relationships that would
+                        drive the entire model.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="text-base font-bold mb-2">Facade Detailing</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Modeled repeated window patterns using
+                        rectangular patterns and mirroring operations. Each element was linked to master dimensions so
+                        changes would propagate automatically.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="text-base font-bold mb-2">Refinement & Rendering</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Added material assignments, fine-tuned
+                        surface details, and created presentation renders to showcase the model from multiple
+                        viewpoints.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass p-8 md:p-12 mb-20 fade-in" style="animation-delay: 0.6s; opacity: 0;">
+            <h2 class="text-2xl font-extrabold tracking-tight mb-6">What I Learned</h2>
+            <div class="space-y-4">
+                <p class="text-slate-400 text-sm leading-relaxed font-light">
+                    <strong class="text-white font-semibold">Parametric thinking is a different discipline.</strong>
+                    It's not just about creating geometry — it's about encoding intent. Every sketch relationship is a
+                    decision about what should change together and what shouldn't.
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed font-light">
+                    <strong class="text-white font-semibold">Accuracy demands patience.</strong> The gap between "looks
+                    right" and "is right" became clear when dimensions were off by millimeters. Building in
+                    measurement-first habits early saved hours of rework.
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed font-light">
+                    <strong class="text-white font-semibold">Complexity needs hierarchy.</strong> Without organized
+                    component groups and clear naming conventions, the model quickly became unmanageable. This project
+                    taught me the value of treating CAD projects like software — structured, documented, and modular.
+                </p>
+            </div>
+        </div>
+
+        <div class="flex justify-center gap-4 mb-16 fade-in" style="animation-delay: 0.7s; opacity: 0;">
+            <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                </svg>
+                View on GitHub
+            </a>
+        </div>
+
+        <div class="text-center">
+            <a href="../index.html#projects"
+                class="inline-block px-10 py-4 border border-white/10 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300">←
+                Back to All Projects</a>
+        </div>
+    </main>
+    <script src="../js/bg-system.js"></script>
+    <script src="../js/mobile-nav.js"></script>
+</body>
+
+</html>

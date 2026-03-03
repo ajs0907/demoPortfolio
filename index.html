@@ -1,380 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aidan J. Sheehan | Engineering & Deep Tech</title>
-    <!-- Tailwind CSS -->
+    <meta name="description"
+        content="Portfolio of Aidan J. Sheehan — Mechanical Engineering student at the University of Washington. Exploring precision in CAD, automotive design, and AI-driven solutions.">
+    <meta name="theme-color" content="#010101">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- GSAP for high-performance animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;800&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg-color: #010101;
-            --card-bg: rgba(12, 12, 12, 0.75);
-            --accent-blue: #3b82f6;
-            --border-color: rgba(255, 255, 255, 0.08);
-        }
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/bg-system.css">
 
-        body {
-            background-color: var(--bg-color);
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            width: 100%;
-            cursor: none;
-        }
-
-        /* Custom Magnetic Cursor */
-        #cursor {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: #fff;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: difference;
-        }
-
-        #cursor-follower {
-            position: fixed;
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transition: transform 0.15s ease-out;
-        }
-
-        /* Space & Background */
-        #starfield {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at center, #0a0a0a 0%, #010101 100%);
-        }
-
-        /* UI Elements */
-        .glass {
-            background: var(--card-bg);
-            backdrop-filter: blur(40px);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-        }
-
-        .text-gradient {
-            background: linear-gradient(to bottom right, #fff 40%, #3b82f6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Image Masking & Fallbacks */
-        .img-container {
-            background-color: #111;
-            position: relative;
-            overflow: hidden;
-            border-radius: 4px;
-        }
-        .cinematic-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%) contrast(110%) brightness(50%);
-            transition: filter 0.8s ease, transform 0.8s ease;
-        }
-        .img-container:hover .cinematic-img {
-            filter: grayscale(0%) contrast(100%) brightness(70%);
-            transform: scale(1.04);
-        }
-
-        /* Timeline Components */
-        .timeline-progress {
-            position: absolute;
-            left: 20px;
-            top: 0;
-            width: 1px;
-            height: 0%;
-            background: linear-gradient(to bottom, transparent, var(--accent-blue), var(--accent-blue), transparent);
-            box-shadow: 0 0 20px var(--accent-blue);
-            z-index: 2;
-        }
-
-        .milestone-dot {
-            position: absolute;
-            left: 15px;
-            width: 11px;
-            height: 11px;
-            background: #000;
-            border: 1px solid #333;
-            border-radius: 50%;
-            z-index: 3;
-            transition: all 0.4s ease;
-        }
-
-        .milestone-dot.active {
-            background: var(--accent-blue);
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 15px var(--accent-blue);
-            transform: scale(1.4);
-        }
-
-        /* Custom Toast Notification */
-        #toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            padding: 12px 24px;
-            background: #fff;
-            color: #000;
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            z-index: 10000;
-            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        #toast.show { transform: translateX(-50%) translateY(0); }
-
-        .reveal { opacity: 0; transform: translateY(60px); }
-
-        section { padding-top: 10rem; padding-bottom: 10rem; width: 100%; max-width: 100vw; }
-    </style>
 </head>
-<body class="antialiased overflow-x-hidden">
 
-    <div id="cursor"></div>
-    <div id="cursor-follower"></div>
-    <div id="toast">Address Copied to Clipboard</div>
+<body class="antialiased">
+
+    <!-- Background layers -->
     <canvas id="starfield"></canvas>
+    <div class="bg-grid"></div>
+    <div class="geo-lines" id="geo-lines"></div>
+    <div class="orbit-ring orbit-ring-1"></div>
+    <div class="orbit-ring orbit-ring-2"></div>
+    <div class="orbit-ring orbit-ring-3"></div>
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 px-6 md:px-12 py-10 flex justify-between items-center mix-blend-difference">
-        <span class="font-bold tracking-widest text-lg uppercase">Sheehan <span class="text-blue-500 font-black">/</span> 2026</span>
-        <div class="hidden md:flex space-x-14 text-[9px] font-bold uppercase tracking-[0.5em] opacity-40">
-            <a href="#about" class="hover:opacity-100 transition-opacity">Nexus</a>
-            <a href="#experience" class="hover:opacity-100 transition-opacity">Archive</a>
+    <div id="cursor" class="hidden md:block"></div>
+    <div id="cursor-follower" class="hidden md:block"></div>
+
+    <nav class="fixed top-0 w-full z-50 px-6 py-8 flex justify-between items-center mix-blend-difference">
+        <span class="font-extrabold tracking-tighter text-xl">SHEEHAN <span class="text-blue-500">/</span> 26</span>
+        <div class="hidden md:flex gap-10 items-center text-[9px] font-bold uppercase tracking-[0.5em] opacity-40">
+            <a href="#about" class="hover:opacity-100 transition-opacity">About</a>
             <a href="#projects" class="hover:opacity-100 transition-opacity">Artifacts</a>
             <a href="#contact" class="hover:opacity-100 transition-opacity">Contact</a>
+            <a href="assets/resume.pdf" target="_blank" class="resume-btn opacity-100">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z" />
+                </svg>
+                Resume
+            </a>
         </div>
+        <button id="mobile-nav-toggle" class="md:hidden" aria-label="Toggle Menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-32 lg:pt-40">
-        <div class="z-10 max-w-full">
-            <div class="inline-flex items-center gap-3 px-4 py-2 glass border-white/5 mb-8 opacity-0" id="status-badge">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span class="text-[9px] font-bold uppercase tracking-widest text-slate-400">Available for Summer '26 Internships</span>
-            </div>
-            <p id="hero-pre" class="text-blue-500 font-bold tracking-[0.5em] md:tracking-[0.8em] text-[9px] md:text-[10px] uppercase mb-8 opacity-0 px-4">Engineering Resilience & Computation</p>
-            <h1 id="hero-title" class="text-5xl sm:text-7xl md:text-[140px] lg:text-[180px] font-extrabold tracking-tighter leading-[0.9] md:leading-[0.8] mb-12 opacity-0 break-words max-w-[95vw] md:max-w-none">
-                Aidan <br><span class="text-gradient">Sheehan</span>
+    <!-- Mobile Navigation Overlay -->
+    <div id="mobile-nav-overlay">
+        <a href="#about">About</a>
+        <a href="#projects">Artifacts</a>
+        <a href="#contact">Contact</a>
+        <a href="assets/resume.pdf" target="_blank" class="resume-btn" style="opacity:1; color: var(--accent-blue);">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                style="width:14px;height:14px;fill:currentColor">
+                <path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z" />
+            </svg>
+            Download Resume
+        </a>
+    </div>
+
+    <section id="about"
+        class="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24 md:pt-0 relative">
+        <div class="hero-glow"></div>
+        <div class="reveal hero-content relative z-10">
+            <p class="text-blue-500 font-bold tracking-[0.8em] text-[10px] uppercase mb-6">Mechanical Engineering / UW
+                Seattle</p>
+            <h1 class="text-5xl md:text-[120px] font-extrabold tracking-tighter leading-none mb-10">
+                Precision <br><span class="opacity-40 italic">In Design</span>
             </h1>
-            <p id="hero-desc" class="text-slate-400 text-xs md:text-sm max-w-2xl mx-auto font-light leading-relaxed mb-16 opacity-0 tracking-[0.1em] md:tracking-[0.15em] px-4">
-                University of Washington | BS Engineering <br>
-                Synthesizing AI modeling, competitive robotics, and environmental research.
-            </p>
-            <div id="hero-btn" class="opacity-0 flex flex-col md:flex-row items-center justify-center gap-6">
-                <a href="#about" class="group relative px-12 md:px-16 py-5 md:py-6 inline-block border border-white/10 overflow-hidden">
-                    <span class="relative z-10 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.4em] text-white">Initialize Archive</span>
-                    <div class="absolute inset-0 bg-blue-600/20 translate-y-full group-hover:translate-y-0 transition-transform duration-700"></div>
+            <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+                <a href="#projects"
+                    class="px-10 py-4 border border-white/10 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300">Explore
+                    Artifacts</a>
+                <a href="assets/resume.pdf" target="_blank" class="resume-btn">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z" />
+                    </svg>
+                    Download Resume
                 </a>
-                <a href="#contact" class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.4em] opacity-40 hover:opacity-100 transition-opacity">Quick Contact</a>
             </div>
         </div>
     </section>
 
-    <!-- Nexus / About Section -->
-    <section id="about" class="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 lg:gap-32 items-center">
-        <div class="lg:col-span-6 reveal">
-            <h2 class="text-[10px] font-bold uppercase tracking-[0.6em] text-blue-500 mb-10 md:mb-12">01 / Foundation</h2>
-            <h3 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-10 md:mb-12 tracking-tighter leading-tight">University of <br>Washington Engineering</h3>
-            <p class="text-slate-400 text-base md:text-lg leading-relaxed mb-12 font-light max-w-lg">
-                Leveraging the resources of the <strong>UW Makerspace</strong> and <strong>Autonomous Flight Team</strong> to bridge the gap between high-level computation and mechanical fabrication. 
-            </p>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <!-- Foundation Card 01 with Image -->
-                <div class="img-container aspect-square glass group">
-                    <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=800" 
-                         onerror="this.src='https://via.placeholder.com/800/111/fff?text=Math+Modeling'" 
-                         alt="Calculus Logic" class="cinematic-img">
-                    <div class="absolute inset-0 p-6 flex flex-col justify-between z-10">
-                        <span class="text-[9px] font-bold text-white/40 tracking-[0.5em] uppercase">01</span>
-                        <div class="bg-black/40 backdrop-blur-md p-3 border border-white/5">
-                            <span class="text-[10px] font-bold tracking-widest uppercase text-white">Calculus III / Physics</span>
-                            <p class="text-[9px] text-white/40 mt-1 uppercase tracking-tighter">Vector Analysis & Mechanics</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Foundation Card 02 with Image -->
-                <div class="img-container aspect-square glass group">
-                    <img src="https://images.unsplash.com/photo-1555255707-c07966485bc4?auto=format&fit=crop&q=80&w=800" 
-                         onerror="this.src='https://via.placeholder.com/800/111/fff?text=AI+Learning'" 
-                         alt="AI Intelligence" class="cinematic-img">
-                    <div class="absolute inset-0 p-6 flex flex-col justify-between z-10">
-                        <span class="text-[9px] font-bold text-white/40 tracking-[0.5em] uppercase">02</span>
-                        <div class="bg-black/40 backdrop-blur-md p-3 border border-white/5">
-                            <span class="text-[10px] font-bold tracking-widest uppercase text-white">AI Learning / 4.0 GPA</span>
-                            <p class="text-[9px] text-white/40 mt-1 uppercase tracking-tighter">Systems Design & Integration</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="lg:col-span-6 reveal mt-12 lg:mt-0">
-            <div class="aspect-[4/5] img-container glass group">
-                <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80&w=1200" 
-                     onerror="this.src='https://via.placeholder.com/1200x1500/111/fff?text=Precision+Engineering'"
-                     alt="Clean Engineering Tech" class="cinematic-img">
-                <div class="absolute bottom-6 md:bottom-10 left-6 md:left-10 right-6 md:right-10 p-6 md:p-10 glass border-white/10">
-                    <p class="text-[10px] font-bold uppercase tracking-widest text-blue-400 mb-4">Laboratory Focus</p>
-                    <p class="text-xs md:text-sm text-white/60 leading-relaxed font-light">Computational modeling and autonomous systems integration at UW Seattle.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Archive / Timeline -->
-    <section id="experience" class="bg-[#020202] border-y border-white/5">
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-12 gap-16 lg:gap-24 relative">
-            
-            <div class="md:col-span-4 sticky top-40 h-fit reveal">
-                <h2 class="text-6xl lg:text-8xl font-extrabold tracking-tighter mb-8 md:mb-10">Archive<span class="text-blue-500">.</span></h2>
-                <p class="text-slate-500 text-sm tracking-widest font-light leading-loose max-w-xs">A technical chronicle of research internships, leadership in robotics instruction, and academic milestones.</p>
-            </div>
-
-            <div class="md:col-span-8 relative pl-10 md:pl-16 border-l border-white/5 ml-2 md:ml-4">
-                <div class="timeline-progress"></div>
-
-                <!-- Item 1: Research -->
-                <div class="mb-32 md:mb-48 milestone reveal">
-                    <div class="milestone-dot active" style="top: 0.5rem"></div>
-                    <span class="text-[10px] font-bold text-blue-500 tracking-[0.4em] md:tracking-[0.5em] uppercase mb-6 block">2023 — 2025 / Research</span>
-                    <h4 class="text-3xl md:text-4xl font-extrabold mb-6 tracking-tight">Coastal Ecosystem Analysis</h4>
-                    <p class="text-slate-500 text-xs mb-10 uppercase tracking-[0.3em]">MIT Biologist Collaboration | CSR</p>
-                    <div class="aspect-video img-container mb-12 glass">
-                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200" 
-                             class="cinematic-img" alt="Ocean Modeling">
-                    </div>
-                    <p class="text-slate-400 text-base leading-relaxed font-light max-w-xl">Integrating environmental modeling data for MIT-led research on coastal resilience and ecosystem sustainability.</p>
-                </div>
-
-                <!-- Item 2: Leadership -->
-                <div class="mb-32 md:mb-48 milestone reveal">
-                    <div class="milestone-dot" style="top: 0.5rem"></div>
-                    <span class="text-[10px] font-bold text-blue-500 tracking-[0.5em] uppercase mb-6 block">2023 — 2025 / Leadership</span>
-                    <h4 class="text-3xl md:text-4xl font-extrabold mb-6 tracking-tight">STEM Robotics Lead</h4>
-                    <p class="text-slate-500 text-xs mb-10 uppercase tracking-[0.3em]">Scituate FIRST Outreach</p>
-                    <div class="aspect-video img-container mb-12 glass">
-                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200" 
-                             class="cinematic-img" alt="Engineering Instruction">
-                    </div>
-                    <p class="text-slate-400 text-base leading-relaxed font-light max-w-xl">Developing technical demos and teaching CAD (OnShape), C++, and precision soldering to over 50+ students in competitive programs.</p>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Artifacts / Projects -->
-    <section id="projects" class="max-w-7xl mx-auto px-6">
-        <h2 class="text-6xl md:text-8xl font-extrabold tracking-tighter mb-24 md:mb-40 text-center reveal">Artifacts<span class="text-blue-500">.</span></h2>
-        
-        <div class="grid md:grid-cols-2 gap-16 lg:gap-24">
-            
-            <!-- Project 1 -->
+    <section id="about" class="py-24 md:py-32 max-w-6xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
             <div class="reveal">
-                <div class="aspect-square img-container mb-12 glass relative group">
-                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1000" 
-                         class="cinematic-img" alt="AI Project">
-                    <div class="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 backdrop-blur-xl duration-500">
-                        <span class="text-[10px] font-bold tracking-[0.5em] uppercase text-blue-500 mb-4">Source Archive</span>
-                        <a href="https://github.com/ajs0907" class="text-xs font-bold uppercase tracking-widest border border-white/20 px-8 py-3 hover:bg-white hover:text-black transition-all">GitHub Repo</a>
-                    </div>
-                </div>
-                <h3 class="text-3xl md:text-4xl font-bold mb-6 tracking-tight">Hunger Management AI</h3>
-                <p class="text-slate-500 text-sm font-light leading-relaxed mb-10">Turn-based educational game utilizing Python and AI logic to simulate world hunger dynamics and multi-player server sync.</p>
-                <div class="flex gap-6">
-                    <span class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">Python</span>
-                    <span class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">OpenAI API</span>
-                </div>
+                <span class="text-blue-500 text-[10px] font-bold tracking-[0.6em] uppercase mb-6 block">About Me</span>
+                <h2 class="text-4xl md:text-6xl font-extrabold tracking-tighter mb-6">Builder<span
+                        class="text-blue-500">.</span> <br><span class="opacity-40 italic">Thinker.</span></h2>
+                <div class="h-1 w-16 bg-blue-500 mb-8"></div>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6 font-light">
+                    I'm Aidan — a Mechanical Engineering student at the University of Washington, Seattle. I'm drawn to
+                    the intersection of physical design and intelligent systems, from precision CAD modeling to building
+                    AI-powered tools that solve real problems.
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6 font-light">
+                    My work spans parametric architecture, automotive surface modeling, full-stack applications, and AI
+                    agents. I believe great engineering is equal parts rigor and curiosity — and I bring both to every
+                    project.
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed font-light">
+                    When I'm not in the lab or writing code, you'll find me exploring new frameworks, sketching
+                    mechanical concepts, or diving deep into whatever problem fascinates me next.
+                </p>
             </div>
-
-            <!-- Project 2 -->
             <div class="reveal">
-                <div class="aspect-square img-container mb-12 glass relative group">
-                    <img src="https://images.unsplash.com/photo-1563770660941-20978e870e93?auto=format&fit=crop&q=80&w=1000" 
-                         class="cinematic-img" alt="Robotic Hardware">
-                    <div class="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 backdrop-blur-xl duration-500">
-                        <span class="text-[10px] font-bold tracking-[0.5em] uppercase text-blue-500 mb-4">Mechanism View</span>
-                        <button class="text-xs font-bold uppercase tracking-widest border border-white/20 px-8 py-3 hover:bg-white hover:text-black transition-all">View OnShape CAD</button>
-                    </div>
-                </div>
-                <h3 class="text-3xl md:text-4xl font-bold mb-6 tracking-tight">Mechanical Localization</h3>
-                <p class="text-slate-500 text-sm font-light leading-relaxed mb-10">High-precision lift mechanisms designed in OnShape and integrated with PhotonVision computer vision for autonomous robot navigation.</p>
-                <div class="flex gap-6">
-                    <span class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">OnShape CAD</span>
-                    <span class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">PhotonVision</span>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Command Center / Contact -->
-    <section id="contact" class="bg-[#030303] py-40 md:py-60">
-        <div class="max-w-7xl mx-auto px-6 reveal">
-            <h2 class="text-6xl md:text-9xl font-extrabold tracking-tighter mb-24 text-center">Contact <br><span class="text-blue-500">Command.</span></h2>
-            
-            <div class="grid lg:grid-cols-2 gap-10 md:gap-20">
-                <div class="p-8 md:p-12 glass border-white/5 flex flex-col justify-between">
-                    <div>
-                        <h4 class="text-[10px] font-bold uppercase tracking-[0.6em] text-blue-500 mb-10">Direct Comms</h4>
-                        <div class="group cursor-pointer mb-12" onclick="copyEmail()">
-                            <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-2 block">Primary Email / Click to Copy</span>
-                            <h5 id="email-text" class="text-xl md:text-3xl font-bold tracking-tight group-hover:text-blue-500 transition-colors break-all">aidanjsheehan07@gmail.com</h5>
+                <div class="glass p-8 md:p-10">
+                    <div class="space-y-6">
+                        <div>
+                            <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-blue-500">Focus
+                                Areas</span>
+                            <div class="flex flex-wrap gap-3 mt-3">
+                                <span
+                                    class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">CAD
+                                    & Parametric Design</span>
+                                <span
+                                    class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">AI
+                                    / ML</span>
+                                <span
+                                    class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Full-Stack
+                                    Development</span>
+                                <span
+                                    class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Product
+                                    Engineering</span>
+                            </div>
                         </div>
-                        <div class="space-y-6">
-                            <a href="https://github.com/ajs0907" class="block text-sm font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-colors">GitHub / Archive</a>
-                            <a href="#" class="block text-sm font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-colors">LinkedIn / Network</a>
+                        <div>
+                            <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-blue-500">Tools &
+                                Languages</span>
+                            <div class="flex flex-wrap gap-3 mt-3">
+                                <span
+                                    class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Python</span>
+                                <span
+                                    class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">TypeScript</span>
+                                <span
+                                    class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Next.js</span>
+                                <span
+                                    class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Fusion
+                                    360</span>
+                                <span
+                                    class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">OnShape</span>
+                                <span
+                                    class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Supabase</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mt-16 md:mt-20 pt-10 border-t border-white/5 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
-                        <span class="text-[9px] font-bold text-slate-600 uppercase tracking-widest">Available Summer '26</span>
-                        <span class="text-[9px] font-bold text-slate-600 uppercase tracking-widest">Seattle / UW Campus</span>
-                    </div>
-                </div>
-
-                <div class="p-8 md:p-12 glass border-white/5 bg-blue-600/5">
-                    <h4 class="text-[10px] font-bold uppercase tracking-[0.6em] text-blue-500 mb-10">Freshman Year Snapshot</h4>
-                    <div class="space-y-8">
-                        <div class="flex justify-between items-end border-b border-white/5 pb-6">
-                            <span class="text-xs text-slate-400 font-light">Calculus III Grade</span>
-                            <span class="text-xl font-bold">4.0 Expected</span>
-                        </div>
-                        <div class="flex justify-between items-end border-b border-white/5 pb-6">
-                            <span class="text-xs text-slate-400 font-light">Autonomous Flight Team</span>
-                            <span class="text-xl font-bold text-right">Active Integration</span>
-                        </div>
-                        <div class="flex justify-between items-end border-b border-white/5 pb-6">
-                            <span class="text-xs text-slate-400 font-light">Makers at UW Membership</span>
-                            <span class="text-xl font-bold">Verified Designer</span>
-                        </div>
-                        <div class="flex justify-between items-end">
-                            <span class="text-xs text-slate-400 font-light">Location</span>
-                            <span class="text-xl font-bold uppercase">Seattle, WA</span>
+                        <div>
+                            <span
+                                class="text-[10px] font-bold tracking-[0.3em] uppercase text-blue-500">Education</span>
+                            <p class="text-slate-400 text-sm mt-3 font-light">B.S. Mechanical Engineering — University
+                                of Washington, Seattle</p>
                         </div>
                     </div>
                 </div>
@@ -382,124 +161,258 @@
         </div>
     </section>
 
-    <footer class="py-20 text-center opacity-20 hover:opacity-100 transition-opacity">
-        <p class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.6em] md:tracking-[0.8em] px-6">Aidan J. Sheehan <span class="text-blue-500">•</span> Precision Engineering</p>
-    </footer>
+    <section id="projects" class="py-24 md:py-32 max-w-7xl mx-auto px-6">
+        <div class="mb-16 md:mb-24 reveal">
+            <h2 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-4">Artifacts<span
+                    class="text-blue-500">.</span></h2>
+            <div class="h-1 w-20 bg-blue-500"></div>
+        </div>
 
-    <script>
-        // Custom Cursor
-        const cursor = document.getElementById('cursor');
-        const follower = document.getElementById('cursor-follower');
-        
-        document.addEventListener('mousemove', (e) => {
-            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0 });
-            gsap.to(follower, { x: e.clientX - 20, y: e.clientY - 20, duration: 0.2 });
-        });
+        <div class="glass p-6 md:p-16 relative min-h-[450px] reveal">
 
-        // Email Copy Logic
-        function copyEmail() {
-            const email = "aidanjsheehan07@gmail.com";
-            const dummy = document.createElement("input");
-            document.body.appendChild(dummy);
-            dummy.value = email;
-            dummy.select();
-            document.execCommand("copy");
-            document.body.removeChild(dummy);
-            
-            const toast = document.getElementById('toast');
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-        }
+            <div class="slide-container active" id="slide-0">
+                <div class="img-reveal">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200"
+                        alt="Savery Hall CAD"
+                        onerror="this.src='https://via.placeholder.com/1200x675/111/fff?text=Savery+Hall+CAD'">
+                </div>
+                <div class="flex flex-col justify-center">
+                    <span class="text-blue-500 text-[10px] font-bold tracking-[0.4em] uppercase mb-4">01 /
+                        Architecture</span>
+                    <h3 class="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight">Savery Hall <br>Digital Twin
+                    </h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8 font-light">
+                        Parametric reconstruction of the University of Washington's Savery Hall. Developed using Fusion
+                        360 with a focus on structural accuracy and facade detailing.
+                    </p>
+                    <div class="flex flex-wrap gap-4 mb-8">
+                        <div class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-500">
+                            Fusion 360</div>
+                        <div class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-500">
+                            Parametric</div>
+                    </div>
+                    <a href="projects/savery-hall.html" target="_blank"
+                        class="inline-block px-8 py-3 border border-blue-500/30 text-[10px] font-bold uppercase tracking-widest text-blue-400 hover:bg-blue-500 hover:text-white transition-all duration-300">Learn
+                        More →</a>
+                    <div class="project-links">
+                        <a href="#" class="project-link" title="GitHub Repository">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                            </svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-        // Parallax Starfield
-        const canvas = document.getElementById('starfield');
-        const ctx = canvas.getContext('2d');
-        let stars = [];
-        let scrollY = 0;
+            <div class="slide-container" id="slide-1">
+                <div class="img-reveal">
+                    <img src="https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?auto=format&fit=crop&q=80&w=1200"
+                        alt="Car Design CAD"
+                        onerror="this.src='https://via.placeholder.com/1200x675/111/fff?text=Car+Design+CAD'">
+                </div>
+                <div class="flex flex-col justify-center">
+                    <span class="text-blue-500 text-[10px] font-bold tracking-[0.4em] uppercase mb-4">02 /
+                        Mechanical</span>
+                    <h3 class="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight">Automotive <br>Car Design</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8 font-light">
+                        Exploration of aerodynamic surface modeling. This project involved chassis assembly and complex
+                        curvature modeling within a collaborative CAD environment.
+                    </p>
+                    <div class="flex flex-wrap gap-4 mb-8">
+                        <div class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-500">
+                            OnShape</div>
+                        <div class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-500">
+                            Surface Modeling</div>
+                    </div>
+                    <a href="projects/car-design.html" target="_blank"
+                        class="inline-block px-8 py-3 border border-blue-500/30 text-[10px] font-bold uppercase tracking-widest text-blue-400 hover:bg-blue-500 hover:text-white transition-all duration-300">Learn
+                        More →</a>
+                    <div class="project-links">
+                        <a href="#" class="project-link" title="GitHub Repository">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                            </svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-        function initStars() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            stars = [];
-            for(let i=0; i<300; i++) {
-                stars.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 1.5,
-                    opacity: Math.random() * 0.8,
-                    speed: Math.random() * 0.6 + 0.05
-                });
-            }
-        }
+            <div class="slide-container" id="slide-2">
+                <div class="img-reveal">
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200"
+                        alt="AI Project"
+                        onerror="this.src='https://via.placeholder.com/1200x675/111/fff?text=Hunger+AI+Project'">
+                </div>
+                <div class="flex flex-col justify-center">
+                    <span class="text-blue-500 text-[10px] font-bold tracking-[0.4em] uppercase mb-4">03 /
+                        Software</span>
+                    <h3 class="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight">Hunger <br>Management AI</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8 font-light">
+                        Simulation engine built in Python utilizing OpenAI's LLM to generate real-time geopolitical
+                        resource crises and management solutions.
+                    </p>
+                    <div class="flex flex-wrap gap-4 mb-8">
+                        <div class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-500">
+                            Python</div>
+                        <div class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-500">
+                            OpenAI API</div>
+                    </div>
+                    <a href="projects/hunger-ai.html" target="_blank"
+                        class="inline-block px-8 py-3 border border-blue-500/30 text-[10px] font-bold uppercase tracking-widest text-blue-400 hover:bg-blue-500 hover:text-white transition-all duration-300">Learn
+                        More →</a>
+                    <div class="project-links">
+                        <a href="#" class="project-link" title="GitHub Repository">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                            </svg>
+                            GitHub
+                        </a>
+                        <a href="#" class="project-link" title="Live Demo">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zM5 5v14h14v-7h-2v5H7V7h5V5H5z" />
+                            </svg>
+                            Live Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-        function drawStars() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            stars.forEach(s => {
-                const parralaxOffset = scrollY * s.speed;
-                let currentY = (s.y - parralaxOffset) % canvas.height;
-                if(currentY < 0) currentY += canvas.height;
+            <div class="slide-container" id="slide-3">
+                <div class="img-reveal">
+                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=1200"
+                        alt="Micromastery App"
+                        onerror="this.src='https://via.placeholder.com/1200x675/111/fff?text=Micromastery+App'">
+                </div>
+                <div class="flex flex-col justify-center">
+                    <span class="text-blue-500 text-[10px] font-bold tracking-[0.4em] uppercase mb-4">04 /
+                        Product</span>
+                    <h3 class="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight">Micromastery <br>App</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8 font-light">
+                        A mobile-first learning platform designed around the concept of micro-skills. Users set focused
+                        goals, track progress through bite-sized challenges, and build mastery through deliberate
+                        practice.
+                    </p>
+                    <div class="flex flex-wrap gap-4 mb-8">
+                        <div class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-500">
+                            React Native</div>
+                        <div class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-500">
+                            Supabase</div>
+                        <div class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-500">
+                            Product Design</div>
+                    </div>
+                    <a href="projects/micromastery.html" target="_blank"
+                        class="inline-block px-8 py-3 border border-blue-500/30 text-[10px] font-bold uppercase tracking-widest text-blue-400 hover:bg-blue-500 hover:text-white transition-all duration-300">Learn
+                        More →</a>
+                    <div class="project-links">
+                        <a href="#" class="project-link" title="GitHub Repository">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                            </svg>
+                            GitHub
+                        </a>
+                        <a href="#" class="project-link" title="App Store">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zM5 5v14h14v-7h-2v5H7V7h5V5H5z" />
+                            </svg>
+                            App Store
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-                ctx.beginPath();
-                ctx.arc(s.x, currentY, s.size, 0, Math.PI*2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
-                ctx.fill();
-            });
-            requestAnimationFrame(drawStars);
-        }
+            <div class="slide-container" id="slide-4">
+                <div class="img-reveal">
+                    <img src="https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&q=80&w=1200"
+                        alt="Email Triage Agent"
+                        onerror="this.src='https://via.placeholder.com/1200x675/111/fff?text=Email+Triage+Agent'">
+                </div>
+                <div class="flex flex-col justify-center">
+                    <span class="text-blue-500 text-[10px] font-bold tracking-[0.4em] uppercase mb-4">05 /
+                        AI Agent</span>
+                    <h3 class="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight">Email Triage <br>Agent</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8 font-light">
+                        An intelligent email management agent that automatically categorizes, prioritizes, and drafts
+                        responses to incoming email. Built with LLM orchestration to handle complex communication
+                        workflows.
+                    </p>
+                    <div class="flex flex-wrap gap-4 mb-8">
+                        <div class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-500">
+                            LLM Agents</div>
+                        <div class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-500">
+                            Next.js</div>
+                        <div class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-500">
+                            Email APIs</div>
+                    </div>
+                    <a href="projects/email-triage.html" target="_blank"
+                        class="inline-block px-8 py-3 border border-blue-500/30 text-[10px] font-bold uppercase tracking-widest text-blue-400 hover:bg-blue-500 hover:text-white transition-all duration-300">Learn
+                        More →</a>
+                    <div class="project-links">
+                        <a href="#" class="project-link" title="GitHub Repository">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                            </svg>
+                            GitHub
+                        </a>
+                        <a href="#" class="project-link" title="Live Demo">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zM5 5v14h14v-7h-2v5H7V7h5V5H5z" />
+                            </svg>
+                            Live Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-        window.addEventListener('scroll', () => { scrollY = window.pageYOffset; });
-        initStars();
-        drawStars();
-        window.addEventListener('resize', initStars);
+            <div class="mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-8">
+                <div class="flex gap-4">
+                    <button onclick="changeSlide(-1)"
+                        class="w-12 h-12 border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-200"
+                        aria-label="Previous Slide">←</button>
+                    <button onclick="changeSlide(1)"
+                        class="w-12 h-12 border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-200"
+                        aria-label="Next Slide">→</button>
+                </div>
+                <div class="slide-progress hidden sm:block">
+                    <div class="slide-progress-fill" id="slide-progress" style="width: 20%"></div>
+                </div>
+                <div id="slide-counter" class="text-[10px] font-bold tracking-widest opacity-40 uppercase">01 / 05</div>
+            </div>
+        </div>
+    </section>
 
-        // GSAP Initialization
-        gsap.registerPlugin(ScrollTrigger);
+    <section id="contact" class="py-32 md:py-48 bg-[#020202] border-t border-white/5">
+        <div class="max-w-4xl mx-auto px-6 text-center reveal">
+            <h4 class="text-blue-500 text-[10px] font-bold tracking-[0.6em] uppercase mb-10">Direct Archive Access</h4>
+            <a href="mailto:aidanjsheehan07@gmail.com"
+                class="contact-email text-2xl md:text-5xl font-extrabold tracking-tighter hover:text-blue-500 transition-colors break-all px-4">
+                aidanjsheehan07@gmail.com
+            </a>
+            <div class="mt-12 flex justify-center gap-8">
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+                    class="text-[10px] font-bold uppercase tracking-[0.4em] opacity-30 hover:opacity-100 hover:text-blue-500 transition-all duration-300">LinkedIn</a>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer"
+                    class="text-[10px] font-bold uppercase tracking-[0.4em] opacity-30 hover:opacity-100 hover:text-blue-500 transition-all duration-300">GitHub</a>
+            </div>
+            <p class="mt-16 text-[10px] font-bold uppercase tracking-[0.8em] opacity-20">Aidan J. Sheehan / University
+                of Washington</p>
+        </div>
+    </section>
 
-        // Hero Sequence
-        const heroTl = gsap.timeline();
-        heroTl.to("#status-badge", { opacity: 1, y: -10, duration: 1, ease: "power4.out" })
-              .to("#hero-pre", { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" }, "-=0.6")
-              .to("#hero-title", { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" }, "-=0.8")
-              .to("#hero-desc", { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" }, "-=0.8")
-              .to("#hero-btn", { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" }, "-=0.8");
-
-        // Section Reveal
-        gsap.utils.toArray(".reveal").forEach(el => {
-            gsap.to(el, {
-                scrollTrigger: {
-                    trigger: el,
-                    start: "top 90%",
-                    toggleActions: "play none none reverse"
-                },
-                opacity: 1,
-                y: 0,
-                duration: 1.5,
-                ease: "power3.out"
-            });
-        });
-
-        // Timeline Path
-        gsap.to(".timeline-progress", {
-            height: "100%",
-            ease: "none",
-            scrollTrigger: {
-                trigger: "#experience",
-                start: "top center",
-                end: "bottom center",
-                scrub: true
-            }
-        });
-
-        // Milestone Dots
-        gsap.utils.toArray(".milestone").forEach((m) => {
-            ScrollTrigger.create({
-                trigger: m,
-                start: "top center",
-                onEnter: () => m.querySelector('.milestone-dot').classList.add('active'),
-                onLeaveBack: () => m.querySelector('.milestone-dot').classList.remove('active')
-            });
-        });
-
-    </script>
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/slideshow.js"></script>
+    <script src="js/bg-system.js"></script>
+    <script src="js/mobile-nav.js"></script>
 </body>
+
 </html>

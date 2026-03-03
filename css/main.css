@@ -1,0 +1,355 @@
+/* ============================================
+   MAIN STYLES — Portfolio Design System
+   ============================================
+   Design tokens, glass effects, layout primitives,
+   animations, and component styles.
+   ============================================ */
+
+/* --- Design Tokens --- */
+:root {
+    --bg-color: #010101;
+    --accent-blue: #3b82f6;
+    --glass: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+/* --- Base --- */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* --- Glass Effect --- */
+.glass {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+}
+
+/* --- Reveal Animation --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* --- Fade-In Animation (project detail pages) --- */
+.fade-in {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Custom Cursor --- */
+#cursor,
+#cursor-follower {
+    pointer-events: none;
+    position: fixed;
+    z-index: 9999;
+}
+
+#cursor {
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border-radius: 50%;
+    mix-blend-mode: difference;
+}
+
+#cursor-follower {
+    width: 35px;
+    height: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transition: transform 0.1s ease-out;
+}
+
+/* Hide cursor on touch devices */
+@media (pointer: coarse) {
+
+    #cursor,
+    #cursor-follower {
+        display: none !important;
+    }
+
+    body {
+        cursor: auto !important;
+    }
+}
+
+/* --- Hero Glow Orb --- */
+.hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* --- Slideshow System --- */
+.slide-container {
+    display: none;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+@media (min-width: 1024px) {
+    .slide-container {
+        grid-template-columns: 1.2fr 1fr;
+    }
+}
+
+.slide-container.active {
+    display: grid;
+}
+
+.img-reveal {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    aspect-ratio: 16/9;
+    background: #111;
+}
+
+.img-reveal img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(110%);
+    transition: filter 0.8s ease;
+}
+
+.active .img-reveal img {
+    filter: grayscale(0%);
+}
+
+/* --- Slide Progress Bar --- */
+.slide-progress {
+    height: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    overflow: hidden;
+    flex: 1;
+}
+
+.slide-progress-fill {
+    height: 100%;
+    background: var(--accent-blue);
+    border-radius: 2px;
+    transition: width 0.6s ease;
+}
+
+/* --- Contact Email Hover --- */
+.contact-email {
+    position: relative;
+    display: inline-block;
+}
+
+.contact-email::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-blue);
+    transition: width 0.4s ease;
+}
+
+.contact-email:hover::after {
+    width: 100%;
+}
+
+/* --- Timeline (project detail pages) --- */
+.timeline-item {
+    position: relative;
+    padding-left: 12px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -29px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+}
+
+/* --- Accessibility Focus --- */
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 4px;
+}
+
+/* --- Mobile Hamburger Menu --- */
+#mobile-nav-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    z-index: 60;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+#mobile-nav-toggle .bar {
+    width: 22px;
+    height: 1.5px;
+    background: #fff;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+#mobile-nav-toggle.active .bar:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+}
+
+#mobile-nav-toggle.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+#mobile-nav-toggle.active .bar:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+}
+
+#mobile-nav-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    background: rgba(1, 1, 1, 0.97);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+}
+
+#mobile-nav-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#mobile-nav-overlay a {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    color: rgba(255, 255, 255, 0.4);
+    transition: color 0.3s ease, opacity 0.3s ease;
+    text-decoration: none;
+}
+
+#mobile-nav-overlay a:hover {
+    color: var(--accent-blue);
+    opacity: 1;
+}
+
+/* Hide hamburger on desktop */
+@media (min-width: 768px) {
+    #mobile-nav-toggle {
+        display: none !important;
+    }
+
+    #mobile-nav-overlay {
+        display: none !important;
+    }
+}
+
+/* --- Resume Download Button --- */
+.resume-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: var(--accent-blue);
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.resume-btn:hover {
+    background: var(--accent-blue);
+    color: #fff;
+    border-color: var(--accent-blue);
+}
+
+.resume-btn svg {
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
+}
+
+/* --- Project External Links --- */
+.project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 1rem;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.project-link:hover {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+}
+
+.project-link svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}

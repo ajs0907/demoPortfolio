@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micromastery App | Aidan J. Sheehan</title>
+    <meta name="description"
+        content="A mobile-first learning platform built around micro-skills, deliberate practice, and focused goal tracking.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/bg-system.css">
+</head>
+
+<body class="antialiased">
+    <canvas id="starfield"></canvas>
+    <div class="bg-grid"></div>
+    <div class="geo-lines" id="geo-lines"></div>
+    <div class="orbit-ring orbit-ring-1"></div>
+    <div class="orbit-ring orbit-ring-2"></div>
+    <div class="orbit-ring orbit-ring-3"></div>
+
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-difference">
+        <a href="../index.html" class="font-extrabold tracking-tighter text-xl">SHEEHAN <span
+                class="text-blue-500">/</span> 26</a>
+        <a href="../index.html#projects"
+            class="text-[9px] font-bold uppercase tracking-[0.5em] opacity-40 hover:opacity-100 transition-opacity">←
+            Back to Artifacts</a>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 pt-32 pb-24">
+        <div class="fade-in">
+            <span class="text-blue-500 text-[10px] font-bold tracking-[0.6em] uppercase mb-4 block">04 / Product</span>
+            <h1 class="text-4xl md:text-7xl font-extrabold tracking-tighter mb-6">Micromastery <br><span
+                    class="opacity-40 italic">App</span></h1>
+            <div class="h-1 w-20 bg-blue-500 mb-12"></div>
+        </div>
+
+        <div class="fade-in" style="animation-delay: 0.2s; opacity: 0;">
+            <div class="aspect-video rounded overflow-hidden mb-16 bg-[#111]">
+                <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=1400"
+                    alt="Micromastery App" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20 fade-in" style="animation-delay: 0.3s; opacity: 0;">
+            <div class="glass p-6">
+                <span class="text-blue-500 text-[9px] font-bold tracking-[0.4em] uppercase block mb-2">Status</span>
+                <p class="text-lg font-semibold">In Development</p>
+            </div>
+            <div class="glass p-6">
+                <span class="text-blue-500 text-[9px] font-bold tracking-[0.4em] uppercase block mb-2">Primary
+                    Stack</span>
+                <p class="text-lg font-semibold">React Native + Supabase</p>
+            </div>
+            <div class="glass p-6">
+                <span class="text-blue-500 text-[9px] font-bold tracking-[0.4em] uppercase block mb-2">Category</span>
+                <p class="text-lg font-semibold">Product Design</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-16 mb-20 fade-in" style="animation-delay: 0.4s; opacity: 0;">
+            <div class="md:col-span-3">
+                <h2 class="text-2xl font-extrabold tracking-tight mb-6">The Challenge</h2>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6 font-light">
+                    Most learning apps overwhelm users with sprawling curricula. Micromastery takes the opposite
+                    approach — it breaks complex skills into tiny, achievable micro-skills that can be practiced in
+                    focused sessions. The challenge was designing an experience that makes daily practice feel
+                    rewarding, not tedious.
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed font-light">
+                    Beyond product design, this project required building a full backend with user authentication,
+                    progress tracking, streak management, and a content management system — all while keeping the mobile
+                    experience smooth and responsive.
+                </p>
+            </div>
+            <div class="md:col-span-2">
+                <h3 class="text-lg font-extrabold tracking-tight mb-4">Skills Developed</h3>
+                <div class="flex flex-wrap gap-3">
+                    <span class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">React
+                        Native</span>
+                    <span
+                        class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Supabase</span>
+                    <span class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Product
+                        Design</span>
+                    <span class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">User
+                        Research</span>
+                    <span class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Database
+                        Design</span>
+                    <span class="px-4 py-2 border border-white/5 text-[9px] font-bold uppercase text-slate-400">Mobile
+                        UX</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-20 fade-in" style="animation-delay: 0.5s; opacity: 0;">
+            <h2 class="text-2xl font-extrabold tracking-tight mb-8">Design Process</h2>
+            <div class="border-l border-white/10 ml-4 pl-8 space-y-10">
+                <div class="timeline-item">
+                    <h3 class="text-base font-bold mb-2">Concept & User Research</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Started with the core insight: people
+                        abandon learning apps because the goals feel too distant. Researched deliberate practice theory
+                        and the concept of "micromastery" — learning one small, complete skill at a time. Mapped user
+                        journeys and defined the MVP feature set.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="text-base font-bold mb-2">Database Architecture</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Designed a Supabase schema to handle
+                        users, micro-skills, progress records, streaks, and content. Implemented Row Level Security
+                        policies to ensure users can only access their own data. Set up real-time subscriptions for live
+                        progress updates.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="text-base font-bold mb-2">Frontend Development</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Built the React Native UI with a focus
+                        on micro-interactions — smooth progress animations, haptic feedback on completions, and a
+                        minimal interface that reduces cognitive load. Implemented gesture-based navigation for a
+                        native-feeling experience.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="text-base font-bold mb-2">Gamification & Retention</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Added streak tracking, milestone
+                        badges, and a "mastery level" system. Each feature was designed to encourage consistent daily
+                        practice without feeling manipulative — the goal is genuine learning, not just engagement
+                        metrics.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass p-8 md:p-12 mb-20 fade-in" style="animation-delay: 0.6s; opacity: 0;">
+            <h2 class="text-2xl font-extrabold tracking-tight mb-6">What I Learned</h2>
+            <div class="space-y-4">
+                <p class="text-slate-400 text-sm leading-relaxed font-light">
+                    <strong class="text-white font-semibold">Product design is about saying no.</strong> The hardest
+                    part wasn't building features — it was deciding which features to cut. Every addition increases
+                    complexity, and a learning app that's complex to use defeats its own purpose.
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed font-light">
+                    <strong class="text-white font-semibold">Backend architecture drives frontend
+                        possibilities.</strong> Designing the database schema first (rather than building the UI and
+                    retrofitting storage) made everything smoother. A well-structured schema made feature development
+                    almost effortless.
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed font-light">
+                    <strong class="text-white font-semibold">Shipping beats perfection.</strong> The MVP mindset was
+                    essential. Instead of building every feature I imagined, I focused on the core loop — pick a skill,
+                    practice it, track progress — and shipped that first. Real user feedback was infinitely more
+                    valuable than my assumptions.
+                </p>
+            </div>
+        </div>
+
+        <div class="flex justify-center gap-4 mb-16 fade-in" style="animation-delay: 0.7s; opacity: 0;">
+            <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                </svg>
+                View on GitHub
+            </a>
+            <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zM5 5v14h14v-7h-2v5H7V7h5V5H5z" />
+                </svg>
+                App Store
+            </a>
+        </div>
+
+        <div class="text-center">
+            <a href="../index.html#projects"
+                class="inline-block px-10 py-4 border border-white/10 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300">←
+                Back to All Projects</a>
+        </div>
+    </main>
+    <script src="../js/bg-system.js"></script>
+    <script src="../js/mobile-nav.js"></script>
+</body>
+
+</html>
